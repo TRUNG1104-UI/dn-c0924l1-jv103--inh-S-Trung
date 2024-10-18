@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Phân tích doanh thu</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 20px; }
+    input, button { margin: 5px; }
+    .report { margin-top: 20px; }
+  </style>
+</head>
+<body>
+<h1>Ứng dụng phân tích doanh thu</h1>
+
+<h2>Nhập dữ liệu bán hàng</h2>
+<label for="salesData">Nhập doanh thu hàng tháng (cách nhau bởi dấu phẩy):</label><br>
+<input type="text" id="salesData" placeholder="Ví dụ: 1000,2000,1500"><br>
+
+<label for="months">Nhập tháng tương ứng (cách nhau bởi dấu phẩy):</label><br>
+<input type="text" id="months" placeholder="Ví dụ: Tháng 1,Tháng 2,Tháng 3"><br>
+
+<button onclick="analyzeSales()">Phân tích</button>
+
+<div class="report">
+  <h2>Kết quả phân tích:</h2>
+  <p id="totalRevenue"></p>
+  <p id="averageRevenue"></p>
+  <p id="trend"></p>
+</div>
+
+<script>
+  function analyzeSales() {
+    const salesInput = document.getElementById("salesData").value;
+    const monthsInput = document.getElementById("months").value;
+
+    const salesArray = salesInput.split(',').map(Number);
+    const monthsArray = monthsInput.split(',');
+
+    const totalRevenue = salesArray.reduce((sum, sale) => sum + sale, 0);
+    const averageRevenue = totalRevenue / salesArray.length || 0;
+
+    let trend = 'Xu hướng không rõ ràng';
+    if (salesArray[0] < salesArray[salesArray.length - 1]) {
+      trend = 'Xu hướng tăng';
+    } else if (salesArray[0] > salesArray[salesArray.length - 1]) {
+      trend = 'Xu hướng giảm';
+    }
+
+    document.getElementById("totalRevenue").innerText = `Tổng doanh thu: ${totalRevenue.toFixed(2)} VNĐ`;
+    document.getElementById("averageRevenue").innerText = `Doanh thu trung bình: ${averageRevenue.toFixed(2)} VNĐ`;
+    document.getElementById("trend").innerText = `Xu hướng mua sắm: ${trend}`;
+  }
+</script>
+</body>
+</html>
